@@ -21,7 +21,8 @@ class CreateTransactionsTable extends Migration
             $table->string('payment_method')->nullable();
             $table->longText('message')->nullable(); //error message
             $table->float('amount', 10, 4);
-            $table->string('status')->default('initiated'); //status can be: initiated, completed and payment failed,completed and successful
+            $table->string('status')->default('initiated');   //status can be: initiated, completed and payment failed,completed and successful
+            $table->softDeletes();  
             $table->timestamps();
         });
     }
