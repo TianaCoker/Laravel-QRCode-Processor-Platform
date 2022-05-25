@@ -10,6 +10,7 @@
     <p>{{ $qrcode->user_id }}</p>
 </div>
 
+
 <!-- Website Field -->
 <div class="form-group">
     {!! Form::label('website', 'Website:') !!}
@@ -43,7 +44,9 @@
 <!-- Qrcode Path Field -->
 <div class="form-group">
     {!! Form::label('qrcode_path', 'Qrcode Path:') !!}
-    <p>{{ $qrcode->qrcode_path }}</p>
+    <p>{{ $qrcode->qrcode_path }}
+        <img src="{{ asset($qrcode->qrcode_path)}}" >
+    </p>
 </div>
 
 <!-- Amount Field -->
