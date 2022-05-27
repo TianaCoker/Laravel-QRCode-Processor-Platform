@@ -4,11 +4,24 @@
     {!! Form::text('name', null, ['class' => 'form-control']) !!}
 </div>
 
+@if(Auth::user()->role_id < 3)
+
 <!-- Role Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('role_id', 'Role Id:') !!}
+    {!! Form::label('role_id', 'User level:') !!}
     {!! Form::number('role_id', null, ['class' => 'form-control']) !!}
 </div>
+<div class="form-group col-sm-6">
+  <label for="sel1">User level:</label>
+  <select class="form-control" id="sel1">
+      <option value="{{ $user->role['id'] }} ">{{ $user->role['name'] }}</option>
+      @foreach($roles as $role)
+         <option value="{{ $role['id'] }} ">{{ $role['name'] }}</option>
+      @endforeach
+    
+  </select>
+</div>
+@endif
 
 <!-- Email Field -->
 <div class="form-group col-sm-6">
@@ -22,11 +35,7 @@
     {!! Form::password('password', ['class' => 'form-control']) !!}
 </div>
 
-<!-- Remember Token Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('remember_token', 'Remember Token:') !!}
-    {!! Form::text('remember_token', null, ['class' => 'form-control']) !!}
-</div>
+
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">

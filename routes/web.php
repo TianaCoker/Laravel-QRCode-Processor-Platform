@@ -17,17 +17,16 @@ Route::get('/', function () {
 
 Auth::routes();
 
+//only logged in users can access the below areas
 Route::get('/home', 'HomeController@index')->name('home');
 
+        Route::group(['middleware'=>'auth'], function(){  
 
-Auth::routes();
+        Route::resource('qrcodes', 'QrcodeController');
 
-Route::get('/home', 'HomeController@index');
+        Route::resource('roles', 'RoleController');
 
-Route::resource('qrcodes', 'QrcodeController');
+        Route::resource('transactions', 'TransactionController');
 
-Route::resource('roles', 'RoleController');
-
-Route::resource('transactions', 'TransactionController');
-
-Route::resource('users', 'UserController');
+        Route::resource('users', 'UserController');
+});

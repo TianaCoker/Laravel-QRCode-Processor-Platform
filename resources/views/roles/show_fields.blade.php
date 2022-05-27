@@ -1,8 +1,4 @@
-<!-- Id Field -->
-<div class="form-group">
-    {!! Form::label('id', 'Id:') !!}
-    <p>{{ $role->id }}</p>
-</div>
+
 
 <!-- Name Field -->
 <div class="form-group">
@@ -13,12 +9,8 @@
 <!-- Created At Field -->
 <div class="form-group">
     {!! Form::label('created_at', 'Created At:') !!}
-    <p>{{ $role->created_at }}</p>
+    <p>{{ $role->created_at->format('D d, M, Y') }}</p>
 </div>
 
-<!-- Updated At Field -->
-<div class="form-group">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{{ $role->updated_at }}</p>
-</div>
+
 
