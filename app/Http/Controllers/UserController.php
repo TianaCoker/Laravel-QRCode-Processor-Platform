@@ -81,8 +81,9 @@ class UserController extends AppBaseController
 
             return redirect(route('users.index'));
         }
-
-        return view('users.show')->with('user', $user);
+        $transactions = $user->transactions;
+        $qrcodes = $user->qrcodes;
+        return view('users.show')->with('user', $user)->with('transactions', $transactions)->with('qrcodes', $qrcodes);
     }
 
     /**
@@ -123,7 +124,13 @@ class UserController extends AppBaseController
             return redirect(route('users.index'));
         }
 
-        $user = $this->userRepository->update($request->all(), $id);
+
+        $input = $request->all();
+        if(!empty($input['password'])){
+            $input['password'] = Hash::make($data['password']);
+        }
+        
+        $user = $this->userRepository->update($input, $id);
 
         Flash::success('User updated successfully.');
 

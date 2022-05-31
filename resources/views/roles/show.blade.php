@@ -3,7 +3,7 @@
 @section('content')
     <section class="content-header">
         <h1 class="pull-left">
-            Role
+            Role : {{ $role->name }}
         </h1>
 
         <h1 class="pull-right">
