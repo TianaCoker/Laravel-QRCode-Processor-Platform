@@ -88,4 +88,12 @@ class User extends Model
     {
         return $this->belongsTo('App\Models\Role');
     }
+
+    /**
+     * Get the account record associated with the user.
+     */
+    public function account()
+    {
+        return $this->hasOne('App\Models\Account');
+    }
 }

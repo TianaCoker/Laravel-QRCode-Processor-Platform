@@ -28,6 +28,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 
         Route::resource('users', 'UserController');
 
+        Route::resource('accounts', 'AccountController');
+
+        Route::resource('accountHistories', 'AccountHistoryController');
+
         // authorisation for moderators and  admins only    
         Route::group(['middleware'=>'checkmoderator'], function(){  
             Route::get('/users', 'UserController@index')->name('users.index');
@@ -39,3 +43,4 @@ Route::get('/home', 'HomeController@index')->name('home');
         // authorisation for admins only
         Route::resource('roles', 'RoleController')->middleware('checkadmin');
 });
+
