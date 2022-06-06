@@ -81,6 +81,12 @@ class User extends Model
     }
 
 
+    public function account_histories()
+    {
+        return $this->hasMany('App\Models\AccountHistory');
+    }
+
+
      /**
      * Get the role that owns this user.
      */
