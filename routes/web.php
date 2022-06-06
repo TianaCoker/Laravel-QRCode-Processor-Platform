@@ -34,12 +34,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 
         // authorisation for moderators and  admins only    
         Route::group(['middleware'=>'checkmoderator'], function(){  
-            Route::get('/users', 'UserController@index')->name('users.index');
+           // Route::get('/users', 'UserController@index')->name('users.index');
 
         });
-
-       
-        
         // authorisation for admins only
         Route::resource('roles', 'RoleController')->middleware('checkadmin');
 });

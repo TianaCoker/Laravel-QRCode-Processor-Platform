@@ -1,8 +1,5 @@
-<!-- User Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('user_id', 'User Id:') !!}
-    {!! Form::number('user_id', null, ['class' => 'form-control']) !!}
-</div>
+
+@if(Auth::user()->role_id == 1)
 
 <!-- Balance Field -->
 <div class="form-group col-sm-6">
@@ -21,6 +18,13 @@
     {!! Form::label('total_credit', 'Total Credit:') !!}
     {!! Form::number('total_credit', null, ['class' => 'form-control']) !!}
 </div>
+
+<!-- Paid Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('paid', 'Paid:') !!}
+    {!! Form::number('paid', '0', ['class' => 'form-control']) !!}
+</div>
+@endif
 
 <!-- Withdrawal Method Field -->
 <div class="form-group col-sm-6">
@@ -52,23 +56,11 @@
     {!! Form::text('bank_account', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Applied For Payout Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('applied_for_payout', 'Applied For Payout:') !!}
-    {!! Form::number('applied_for_payout', null, ['class' => 'form-control']) !!}
-</div>
 
-<!-- Paid Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('paid', 'Paid:') !!}
-    {!! Form::number('paid', null, ['class' => 'form-control']) !!}
-</div>
 
-<!-- Last Date Applied Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('last_date_applied', 'Last Date Applied:') !!}
-    {!! Form::date('last_date_applied', null, ['class' => 'form-control','id'=>'last_date_applied']) !!}
-</div>
+
+
+
 
 @push('scripts')
     <script type="text/javascript">
@@ -79,11 +71,7 @@
     </script>
 @endpush
 
-<!-- Last Date Paid Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('last_date_paid', 'Last Date Paid:') !!}
-    {!! Form::date('last_date_paid', null, ['class' => 'form-control','id'=>'last_date_paid']) !!}
-</div>
+
 
 @push('scripts')
     <script type="text/javascript">
@@ -109,5 +97,5 @@
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-    <a href="{{ route('accounts.index') }}" class="btn btn-default">Cancel</a>
+    
 </div>

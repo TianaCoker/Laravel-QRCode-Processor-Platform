@@ -3,7 +3,18 @@
 @section('content')
     <section class="content-header">
         <h1>
-            Account
+            Account: {{ $account->id }}
+
+            <small>    
+            <div class="form-group">
+                
+                @if($account->applied_for_payout == 1)  
+                Payout Request Pending
+                
+                @endif
+                
+
+            </small>
         </h1>
     </section>
     <div class="content">
@@ -11,7 +22,7 @@
             <div class="box-body">
                 <div class="row" style="padding-left: 20px">
                     @include('accounts.show_fields')
-                    <a href="{{ route('accounts.index') }}" class="btn btn-default">Back</a>
+                    
                 </div>
             </div>
         </div>

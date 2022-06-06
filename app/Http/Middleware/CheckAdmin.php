@@ -20,7 +20,7 @@ class CheckAdmin
     {
         if(Auth::user()->role_id != 1){
             Flash::error('Sorry, you have no permission to view this.');
-            return redirect('/transactions');
+           return redirect('/transactions');
         }
         return $next($request);
     }
