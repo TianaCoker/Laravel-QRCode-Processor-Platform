@@ -37,7 +37,10 @@ Route::get('/home', 'HomeController@index')->name('home');
            // Route::get('/users', 'UserController@index')->name('users.index');
 
         });
-        // authorisation for admins only
+        // authorisation for admins only 
         Route::resource('roles', 'RoleController')->middleware('checkadmin');
+        Route::post('/accounts/apply_for_payout', 'AccountsController@apply_for_payout')->name('accounts.apply_for_payout');
+        Route::post('/accounts/mark_as_paid', 'AccountsController@mark_as_paid')->name('accounts.mark_as_paid');
+
 });
 

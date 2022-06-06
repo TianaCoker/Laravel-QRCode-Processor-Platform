@@ -20,7 +20,7 @@
         <h1 class="pull-right">
 @if(Auth::user()->id == $account->user_id)
             
-            {!! Form::open(['route' => ['roles.destroy', $account->id], 'method' => 'delete', 'class'=> 'pull-left']) !!}
+            {!! Form::open(['route' => ['accounts.apply_for_payout', $account->id], 'method' => 'post', 'class'=> 'pull-left']) !!}
         
             {!! Form::button('<i class="glyphicon glyphicon-ok"></i>Apply for Payout', ['type' => 'submit', 'class' => 'btn btn-primary', 'onclick' => "return confirm('Are you sure you want to apply for payout?')"]) !!}
         
@@ -28,9 +28,9 @@
 @endif
 
 @if(Auth::user()->role_id < 3)
-            {!! Form::open(['route' => ['roles.destroy', $account->id], 'method' => 'delete', 'class'=> 'pull-right', 'style'=> 'margin-left:10px']) !!}
+            {!! Form::open(['route' => ['accounts.mark_as_paid', $account->id], 'method' => 'post', 'class'=> 'pull-right', 'style'=> 'margin-left:10px']) !!}
         
-            {!! Form::button('<i class="glyphicon glyphicon-ok"></i> Mark as Paid', ['type' => 'submit', 'class' => 'btn btn-primary', 'onclick' => "return confirm('Are you sure?')"]) !!}
+            {!! Form::button('<i class="glyphicon glyphicon-ok"></i> Mark as Paid', ['type' => 'submit', 'class' => 'btn btn-primary', 'onclick' => "return confirm('Mark payout as paid?')"]) !!}
         
             {!! Form::close() !!}
 @endif
