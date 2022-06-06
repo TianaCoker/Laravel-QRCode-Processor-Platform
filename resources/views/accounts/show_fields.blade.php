@@ -1,3 +1,4 @@
+<div class="col-md-6">
 
 
 <!-- User Id Field -->
@@ -25,10 +26,31 @@
 </div>
 
 <!-- Withdrawal Method Field -->
-<div class="form-group">
-    {!! Form::label('withdrawal_method', 'Withdrawal Method:') !!}
-    <p>{{ $account->withdrawal_method }}</p>
+    <div class="form-group">
+        {!! Form::label('withdrawal_method', 'Withdrawal Method:') !!}
+        <p>{{ $account->withdrawal_method }}</p>
+    </div>
+
+        <!-- Created At Field -->
+    <div class="form-group">
+        {!! Form::label('created_at', 'Created At:') !!}
+        <p>{{ $account->created_at->format('D d, M, Y H:i') }}</p>
+    </div>
+
+    <!-- Updated At Field -->
+    <div class="form-group">
+        {!! Form::label('updated_at', 'Updated At:') !!}
+        <p>{{ $account->updated_at->format('D d, M, Y H:i') }}</p>
+    </div>
+    
 </div>
+
+
+
+
+
+
+<div class="col-md-6">
 
 <!-- Payment Email Field -->
 <div class="form-group">
@@ -87,21 +109,7 @@
     <p>{{ $account->other_details }}</p>
 </div>
 
-<!-- Deleted At Field -->
-<div class="form-group">
-    {!! Form::label('deleted_at', 'Deleted At:') !!}
-    <p>{{ $account->deleted_at }}</p>
-</div>
 
-<!-- Created At Field -->
-<div class="form-group">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{{ $account->created_at->format('D d, M, Y H:i') }}</p>
-</div>
 
-<!-- Updated At Field -->
-<div class="form-group">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{{ $account->updated_at->format('D d, M, Y H:i') }}</p>
-</div>
 
+</div>
