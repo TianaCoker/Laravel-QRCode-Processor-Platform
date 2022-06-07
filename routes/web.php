@@ -39,8 +39,8 @@ Route::get('/home', 'HomeController@index')->name('home');
         });
         // authorisation for admins only 
         Route::resource('roles', 'RoleController')->middleware('checkadmin');
-        Route::post('/accounts/apply_for_payout', 'AccountsController@apply_for_payout')->name('accounts.apply_for_payout');
-        Route::post('/accounts/mark_as_paid', 'AccountsController@mark_as_paid')->name('accounts.mark_as_paid');
+        Route::post('/accounts/apply_for_payout', 'AccountController@apply_for_payout')->name('accounts.apply_for_payout');
+        Route::post('/accounts/mark_as_paid', 'AccountController@mark_as_paid')->name('accounts.mark_as_paid');
 
 });
 

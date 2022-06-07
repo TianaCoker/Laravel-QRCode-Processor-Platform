@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Auth;
+use App\Models\Account;
 
 class AccountController extends AppBaseController
 {
@@ -35,6 +37,48 @@ class AccountController extends AppBaseController
         return view('accounts.index')
             ->with('accounts', $accounts);
     }
+
+
+    public function apply_for_payout(Request $request){
+        /**
+         * Receive Account Id
+         * Check if logged in user is the same as owner of account
+         * Update applied for payout field in accounts table
+         * Redirect and display success message
+         */
+
+         $account = $this->accountRepository->findWithoutFail($request-> input ('apply_for_payout'));
+
+        if (empty($account)) {
+            Flash::error('Account not found');
+
+            return redirect()->back();
+        }
+
+        if(Auth::user()->id != $account->user_id){
+            Flash::error('Operation Denied');
+
+            return redirect()->back();
+
+        }
+
+        Account::where('id', $account->id)->update([
+            'applied_for_payout'=>1
+        ]);
+
+        Flash::success('Application submitted successfully');
+        return redirect()->back();
+
+
+    }
+
+    public function mark_as_paid(Request $request){
+
+
+
+
+    }
+
 
     /**
      * Show the form for creating a new Account.
