@@ -12,6 +12,8 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use Auth;
 use App\Models\Account;
+use App\Models\AccountHistory;
+
 
 class AccountController extends AppBaseController
 {
@@ -44,6 +46,7 @@ class AccountController extends AppBaseController
          * Receive Account Id
          * Check if logged in user is the same as owner of account
          * Update applied for payout field in accounts table
+         * Update Account History
          * Redirect and display success message
          */
 
@@ -63,8 +66,19 @@ class AccountController extends AppBaseController
         }
 
         Account::where('id', $account->id)->update([
-            'applied_for_payout'=>1
+            'applied_for_payout'=>1,
+            'paid'=>0,
+            'last_date_applied' => date()
         ]);
+
+        AccountHistory::create([
+            'user_id' => Auth::user()->id,
+            'account_id' => $account->user_id,
+            'message' => 'payout request initiated by account owner'
+            
+
+    ]);
+
 
         Flash::success('Application submitted successfully');
         return redirect()->back();
@@ -74,6 +88,45 @@ class AccountController extends AppBaseController
 
     public function mark_as_paid(Request $request){
 
+         /**
+         * Receive Account Id
+         * Check if logged in user is an admin or moderator
+         * Update applied for payout field in accounts table to 0
+         * Update paid field in account table to 1
+         * Update Account History
+         * Redirect and display success message
+         */
+
+        $account = $this->accountRepository->findWithoutFail($request-> input ('mark_as_paid'));
+
+        if (empty($account)) {
+            Flash::error('Account not found');
+
+            return redirect()->back();
+        }
+
+        if(Auth::user()->role_id > 2 ){
+            Flash::error('Access Denied');
+
+            return redirect()->back();
+
+        }
+
+        Account::where('id', $account->id)->update([
+            'applied_for_payout'=>0,
+            'paid' => 1,
+            'last_date_paid' => date()
+        ]);
+
+        AccountHistory::create([
+                'user_id' => $account->user_id,
+                'account_id' => $account->user_id,
+                'message' => 'payment completed by Admin:'.Auth::user()->id
+
+        ]);
+
+        Flash::success('Account Marked as Paid');
+        return redirect()->back();
 
 
 

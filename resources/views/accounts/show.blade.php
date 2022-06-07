@@ -22,15 +22,15 @@
             
             {!! Form::open(['route' => ['accounts.apply_for_payout', ], 'method' => 'post', 'class'=> 'pull-left']) !!}
             <input type="hidden" name="apply_for_payout" value="{{ $account->id }}">
-            {!! Form::button('<i class="glyphicon glyphicon-ok"></i>Apply for Payout', ['type' => 'submit', 'class' => 'btn btn-primary', 'onclick' => "return confirm('Are you sure you want to apply for payout?')"]) !!}
+            {!! Form::button('<i class="glyphicon glyphicon-ok"></i>Apply for Payout', ['type' => 'submit', 'class' => 'btn btn-primary', 'onclick' => "return confirm('Are You Yure You Want to Apply for Payout?')"]) !!}
         
             {!! Form::close() !!}
 @endif
 
-@if(Auth::user()->role_id < 3)
+@if(Auth::user()->role_id < 3 && $account->paid != 1 )
             {!! Form::open(['route' => ['accounts.mark_as_paid', ], 'method' => 'post', 'class'=> 'pull-right', 'style'=> 'margin-left:10px']) !!}
             <input type="hidden" name="mark_as_paid" value="{{ $account->id }}">
-            {!! Form::button('<i class="glyphicon glyphicon-ok"></i> Mark as Paid', ['type' => 'submit', 'class' => 'btn btn-primary', 'onclick' => "return confirm('Mark payout as paid?')"]) !!}
+            {!! Form::button('<i class="glyphicon glyphicon-ok"></i> Mark as Paid', ['type' => 'submit', 'class' => 'btn btn-primary', 'onclick' => "return confirm('Are You Sure You Want to Mark Payout as Paid?')"]) !!}
         
             {!! Form::close() !!}
 @endif

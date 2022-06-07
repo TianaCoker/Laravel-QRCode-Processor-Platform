@@ -6,6 +6,7 @@
         <th>Balance</th>
         <th>Total Debit</th>
         <th>Total Credit</th>
+        <th>Status</th>
         
         
                 <th colspan="3">Action</th>
@@ -18,6 +19,15 @@
             <td>${{ number_format($account->balance) }}</td>
             <td>${{ number_format($account->total_debit) }}</td>
             <td>${{ number_format($account->total_credit) }}</td>
+            <td>@if($account->applied_for_payout == 1)
+                Payment Pending
+                @elseif($account->paid == 1)
+                Paid
+
+                @endif
+            
+            
+            </td>
             
             
                 <td>
