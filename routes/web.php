@@ -28,7 +28,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 
         Route::resource('users', 'UserController');
 
-        Route::resource('accounts', 'AccountController');
+        Route::resource('accounts', 'AccountController')->except(['show']);
+
+        Route::get('/accounts/show/{id?}', 'AccountController@show')->name('accounts.show');
 
         Route::resource('accountHistories', 'AccountHistoryController');
 
