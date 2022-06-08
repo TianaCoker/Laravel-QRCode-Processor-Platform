@@ -31,10 +31,14 @@ class QrcodeController extends AppBaseController
      * @return Response
      */
     public function index(Request $request)
-    {
+    {   //only admins can view all qrcodes
+        if(Auth::user()->role_id < 3 ){
         $this->qrcodeRepository->pushCriteria(new RequestCriteria($request));
         $qrcodes = $this->qrcodeRepository->all();
+        } else{
 
+            $qrcodes = QrcodeModel::where('user_id', Auth::user()->id);
+        }
         return view('qrcodes.index')
             ->with('qrcodes', $qrcodes);
     }

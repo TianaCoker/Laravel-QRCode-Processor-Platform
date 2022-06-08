@@ -43,8 +43,12 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::post('/accounts/mark_as_paid', 'AccountController@mark_as_paid')->name('accounts.mark_as_paid')->middleware('checkmoderator');
 
         Route::get('/accounts', 'AccountController@index')->name('accounts.index')->middleware('checkmoderator');
-
         Route::get('/accounts/create', 'AccountController@create')->name('acounts.create')->middleware('checkadmin');
 
+        Route::get('/accountHistories', 'AccountHistoryController@index')->name('accountHistories.index')->middleware('checkmoderator');
+        Route::get('/accountHistories/create', 'AccountHistoryController@create')->name('acountHistories.create')->middleware('checkadmin');
+
+
+        
 });
 
