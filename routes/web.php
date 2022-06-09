@@ -22,7 +22,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
         Route::group(['middleware'=>'auth'], function(){  
 
-        Route::resource('qrcodes', 'QrcodeController');
+        Route::resource('qrcodes', 'QrcodeController')->except(['show']);
 
         Route::resource('transactions', 'TransactionController');
 
@@ -54,3 +54,4 @@ Route::get('/home', 'HomeController@index')->name('home');
         
 });
 
+Route::get('/qrcodes/{id}', 'QrcodeController@show')->name('qrcodes.show');

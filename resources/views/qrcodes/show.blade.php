@@ -7,7 +7,7 @@
         </h1>
 
         <h1 class="pull-right">
-        @if($qrcode->user_id == Auth::user()->id || Auth::user()->role_id < 3)
+        @if(!Auth::guest() && ($qrcode->user_id == Auth::user()->id || Auth::user()->role_id < 3))
            <a class="btn btn-primary pull-right" style="margin-top: -10px;margin-bottom: 5px" href="{{ route('qrcodes.edit', [$qrcode->id]) }}">Edit</a>
            @endif
         </h1>
