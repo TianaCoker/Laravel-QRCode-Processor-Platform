@@ -55,3 +55,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 });
 
 Route::get('/qrcodes/{id}', 'QrcodeController@show')->name('qrcodes.show');
+
+// Laravel 5.1.17 and above
+Route::post('/pay', 'PaymentController@redirectToGateway')->name('pay');
+Route::get('/payment/callback', 'PaymentController@handleGatewayCallback');
