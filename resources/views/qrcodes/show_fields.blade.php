@@ -79,9 +79,9 @@
 
         <a href="{{ route('qrcodes.index') }}" class="btn btn-default">Back</a>
 
- </div>
+ 
 @endif
-
+</div>
 
 
  <div class="col-md-5 pull-right">
