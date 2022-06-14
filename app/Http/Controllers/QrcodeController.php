@@ -68,9 +68,21 @@ class QrcodeController extends AppBaseController
 
         //get the qrcode details
         $qrcode = QrcodeModel::where('id', $input['qrcode_id'])->first();
-        $buyer_id = $user->id;
+        
+        //initiate transaction
 
-        return view('qrcodes.paystack-form', ['qrcode'=> $qrcode, 'buyer_id'=> $buyer_id]);
+        $transaction = Transaction::create([
+            'user_id' => $user->id,
+            'qrcode_id' => $qrcode->id,
+            'status' => 'initiated',
+            'qrcode_owner_id' => $qrcode->user_id,
+            'payment_method' => 'paystack',
+            'amount' => $qrcode->amount
+
+
+        ]);
+
+        return view('qrcodes.paystack-form', ['qrcode'=> $qrcode, 'transaction'=> $transaction  'user'=> $user]);
     }
 
     /**
