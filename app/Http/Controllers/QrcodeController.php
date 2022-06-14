@@ -76,14 +76,19 @@ class QrcodeController extends AppBaseController
             'qrcode_id' => $qrcode->id,
             'status' => 'initiated',
             'qrcode_owner_id' => $qrcode->user_id,
-            'payment_method' => 'paystack',
+            'payment_method' => 'paystack/card',
             'amount' => $qrcode->amount
 
 
         ]);
-
-        return view('qrcodes.paystack-form', ['qrcode'=> $qrcode, 'transaction'=> $transaction  'user'=> $user]);
+        //dd($transaction);
+        return view('qrcodes.paystack-form', ['qrcode'=> $qrcode, 'transaction'=> $transaction , 'user'=> $user]);
+        
     }
+
+
+
+
 
     /**
      * Show the form for creating a new Qrcode.

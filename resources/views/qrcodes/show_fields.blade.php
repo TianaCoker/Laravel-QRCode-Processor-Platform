@@ -95,18 +95,23 @@
                 </div>
 
 
-                @if(!Auth::guest())
+               
 
-                @include('qrcodes.paystack-form')
+                {{-- @include('qrcodes.paystack-form') --}}
 
-                @else
+                
 
                  <form action="{{ route('qrcodes.show_payment_page')}}" method="post"  role="form" class="col-md-6">
                     <div class="form-group">
+                        @if(Auth::guest())
+                        {{--Only logged out users sees the email field--}}
                      <label for="email">Enter Your Email</label>
-                     <input type="email" name="email" required id="email" placeholder="johndoe@gmail.com" class="form-control">
-                     <input type="hidden" name="qrcode_id" value="{{ $qrcode->id }}">
+                     <input type="email" name="email" required id="email" placeholder="johndoe@gmail.com" class="form-control"> 
                     </div>
+                    @else 
+                    <input type="hidden" name="email"  value="{{ Auth::user()->email }}" >
+                    @endif
+                    <input type="hidden" name="qrcode_id" value="{{ $qrcode->id }}">
 
                     <p>
                         <button class="btn btn-success btn-lg " type="submit" value="Pay Now!">
@@ -115,8 +120,11 @@
                     </p>
                  </form>
 
-                @endif
+               
  </div>
+</div>
+
+ <div class="clearfix"></div>
 
  @if(!Auth::guest() && ($qrcode->user_id == Auth::user()->id || Auth::user()->role_id < 3))
  <div class="col-xs-12">
