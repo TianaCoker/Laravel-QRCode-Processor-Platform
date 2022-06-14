@@ -101,10 +101,11 @@
 
                 @else
 
-                 <form action="" method="post"  role="form" class="col-md-6">
+                 <form action="{{ route('qrcodes.show_payment_page')}}" method="post"  role="form" class="col-md-6">
                     <div class="form-group">
                      <label for="email">Enter Your Email</label>
-                     <input type="email" name="email" id="email" placeholder="johndoe@gmail.com" class="form-control">
+                     <input type="email" name="email" required id="email" placeholder="johndoe@gmail.com" class="form-control">
+                     <input type="hidden" name="qrcode_id" value="{{ $qrcode->id }}">
                     </div>
 
                     <p>

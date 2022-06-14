@@ -59,3 +59,5 @@ Route::get('/qrcodes/{id}', 'QrcodeController@show')->name('qrcodes.show');
 // Laravel 5.1.17 and above
 Route::post('/pay', 'PaymentController@redirectToGateway')->name('pay');
 Route::get('/payment/callback', 'PaymentController@handleGatewayCallback');
+Route::post('/qrcodes/show_payment_page', 'QrcodeController@show_payment_page')->name('qrcodes.show_payment_page');
+

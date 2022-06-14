@@ -43,6 +43,36 @@ class QrcodeController extends AppBaseController
             ->with('qrcodes', $qrcodes);
     }
 
+    public function show_payment_page(Request $request){
+        /*** 
+         * recieve buyer's email
+         * retrieve user's id using the buyer email
+         * initiate transaction
+         * redirect to paystack payment page
+         */
+
+        $input = $request->all();
+        
+        // get the user with this email 
+        $user = User::where('email', $input['email'])->first();
+
+        if(empty($user )){
+            //if user doesnt exist,could be first time user
+            //create a user account
+            $user = User::create([
+                'name' => $input['name'],
+                'email' => $input['email'],
+                'password' => Hash::make($input['email']),
+            ]);
+        }
+
+        //get the qrcode details
+        $qrcode = QrcodeModel::where('id', $input['qrcode_id'])->first();
+        $buyer_id = $user->id;
+
+        return view('qrcodes.paystack-form', ['qrcode'=> $qrcode, 'buyer_id'=> $buyer_id]);
+    }
+
     /**
      * Show the form for creating a new Qrcode.
      *
