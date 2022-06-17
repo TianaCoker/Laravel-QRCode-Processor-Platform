@@ -33,11 +33,12 @@ class TransactionController extends AppBaseController
     {    
         // All transactions are viewed by admins only
         if(Auth::user()->role_id < 3 ){
+        Flash::success('Transactions by All Users');
         $this->transactionRepository->pushCriteria(new RequestCriteria($request));
         $transactions = $this->transactionRepository->all();
     } else{
-
-        $transactions = Transaction::where('user_id', Auth::user()->id)->get();
+        Flash::success('My Transactions');
+        $transactions = Transaction::where('user_id', Auth::user()->id)->latest()->get();
     }
        
 

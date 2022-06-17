@@ -111,6 +111,7 @@
                     @else 
                     <input type="hidden" name="email"  value="{{ Auth::user()->email }}" >
                     @endif
+                     {{ csrf_field() }}
                     <input type="hidden" name="qrcode_id" value="{{ $qrcode->id }}">
 
                     <p>
