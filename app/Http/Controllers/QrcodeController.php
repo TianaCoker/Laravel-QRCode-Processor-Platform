@@ -15,6 +15,8 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use App\Models\User;
 use App\Models\Transaction;
+use App\Http\Resources\Qrcode as QrcodeResource;
+use App\Http\Resources\QrcodeCollection as QrcodeResourceCollection;
 
 
 
@@ -35,7 +37,9 @@ class QrcodeController extends AppBaseController
      * @return Response
      */
     public function index(Request $request)
-    {   //only admins can view all qrcodes
+    {   
+        
+        //only admins can view all qrcodes
         if(Auth::user()->role_id < 3 ){
         $this->qrcodeRepository->pushCriteria(new RequestCriteria($request));
         $qrcodes = $this->qrcodeRepository->all();
@@ -45,6 +49,7 @@ class QrcodeController extends AppBaseController
         }
         return view('qrcodes.index')
             ->with('qrcodes', $qrcodes);
+            //return new QrcodeResourceCollection($qrcodes);
     }
 
     public function show_payment_page(Request $request){
