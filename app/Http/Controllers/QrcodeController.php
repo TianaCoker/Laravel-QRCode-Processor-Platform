@@ -47,6 +47,16 @@ class QrcodeController extends AppBaseController
 
             $qrcodes = QrcodeModel::where('user_id', Auth::user()->id)->get();
         }
+
+        //check if request expects json 
+        
+        if($request->expectsJson()){
+            return response([
+                'data' => QrcodeResourceCollection::collection($qrcodes)
+            ], Response::HTTP_OK); 
+        }
+
+
         return view('qrcodes.index')
             ->with('qrcodes', $qrcodes);
             //return new QrcodeResourceCollection($qrcodes);
@@ -140,20 +150,29 @@ class QrcodeController extends AppBaseController
 
         //update database
         $newQrcode= QrcodeModel::where('id', $qrcode->id)->update(['qrcode_path' =>$input['qrcode_path']] );
-        
+
+
         if($newQrcode){
 
+            $getQrcode =  QrcodeModel::where('id', $qrcode->id)->first();
+         //check if request expects json 
+        
+        if($request->expectsJson()){
+            return response([
+                'data' => new QrcodeResource($getQrcode)
+            ], Response::HTTP_CREATED); 
+        }  
 
-            Flash::success('Qrcode saved successfully.');
-
+        Flash::success('Qrcode saved successfully.');
         }else{
 
-            Flash::error('Qrcode failed to save successfully.');
+        Flash::error('Qrcode failed to save successfully.');
         }
-
         
 
         return redirect(route('qrcodes.show', ['qrcode' => $qrcode]));
+        
+        
     }
 
     /**
@@ -216,6 +235,32 @@ class QrcodeController extends AppBaseController
         }
 
         $qrcode = $this->qrcodeRepository->update($request->all(), $id);
+
+        //generate qrcode
+        //save qrcode image in our folder on this site
+        $file = 'generated_qrcodes/'.$qrcode->id.'.png'; 
+       $newQrcode = QRCode::text("message")
+        ->setSize(8)
+        ->setMargin(2)
+        ->setOutfile($file)
+        ->png();
+         $input['qrcode_path'] = $file; 
+    
+           //update database
+         $newQrcode =   QrcodeModel::where('id', $qrcode->id)
+                        ->update([
+                            'qrcode_path' => $input['qrcode_path']
+                        ]);
+                        
+
+        $getQrcode =  QrcodeModel::where('id', $qrcode->id)->first();
+        //check if request expects json 
+       
+       if($request->expectsJson()){
+            return response([
+                'data' => new QrcodeResource($getQrcode)
+            ], Response::HTTP_CREATED); 
+       }  
 
         Flash::success('Qrcode updated successfully.');
 
