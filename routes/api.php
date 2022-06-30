@@ -19,3 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::middleware('auth:api')->resource('/qrcodes', '\App\Http\Controllers\QrcodeController');
+
+

@@ -42,10 +42,10 @@ class QrcodeController extends AppBaseController
         //only admins can view all qrcodes
         if(Auth::user()->role_id < 3 ){
         $this->qrcodeRepository->pushCriteria(new RequestCriteria($request));
-        $qrcodes = $this->qrcodeRepository->all();
+        $qrcodes = $this->qrcodeRepository->paginate(5);
         } else{
 
-            $qrcodes = QrcodeModel::where('user_id', Auth::user()->id)->get();
+            $qrcodes = QrcodeModel::where('user_id', Auth::user()->id)->paginate(5);
         }
 
         //check if request expects json 
@@ -182,7 +182,7 @@ class QrcodeController extends AppBaseController
      *
      * @return Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
         $qrcode = $this->qrcodeRepository->findWithoutFail($id);
 
@@ -193,7 +193,17 @@ class QrcodeController extends AppBaseController
         }
         $transactions = $qrcode->transactions;
 
-        return view('qrcodes.show')->with('qrcode', $qrcode)->with('transactions', $transactions);
+        if ($request->expectsJson()) {
+            return response([
+                'data' => new QrcodeResource($qrcode)
+            ], Response::HTTP_OK); 
+        }  
+
+        return view('qrcodes.show')
+        ->with('transactions', $transactions)
+        ->with('qrcode', $qrcode);
+        
+        //return view('qrcodes.show')->with('qrcode', $qrcode)->with('transactions', $transactions);
     }
 
     /**
