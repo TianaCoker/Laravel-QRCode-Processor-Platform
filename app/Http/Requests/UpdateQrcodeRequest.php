@@ -25,8 +25,16 @@ class UpdateQrcodeRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = Qrcode::$rules;
+        //$rules = Qrcode::$rules;
         
-        return $rules;
+        return [
+            'product_name' => 'required|max:255',
+            'user_id' => 'required',
+            'company_name' => 'required|max:255',
+            'callback_url' => 'required',
+            'product_name' => 'required',
+            'amount' => 'required',
+        ];
+
     }
 }
