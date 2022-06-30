@@ -12,11 +12,12 @@ use Flash;
 use QRCode;
 use Auth;
 use Prettus\Repository\Criteria\RequestCriteria;
-use Response;
+
 use App\Models\User;
 use App\Models\Transaction;
 use App\Http\Resources\Qrcode as QrcodeResource;
 use App\Http\Resources\QrcodeCollection as QrcodeResourceCollection;
+use Symfony\Component\HttpFoundation\Response;
 
 
 
@@ -129,34 +130,34 @@ class QrcodeController extends AppBaseController
     public function store(CreateQrcodeRequest $request)
     {
         $input = $request->all();
+        
+  //save data to the database
+  $qrcode = $this->qrcodeRepository->create($input);
 
-          //save  data to database
-         $qrcode = $this->qrcodeRepository->create($input);
-
-      
 
         //generate qrcode
-        //save qrcode image to this folder on the site
-        $file = 'generated_qrcodes/'.$qrcode->id.'.png';
-
-
-        $newQrcode= QRCode::text("message")
+        //save qrcode image in our folder on this site
+        $file = 'generated_qrcodes/'.$qrcode->id.'.png'; 
+       $newQrcode = QRCode::text(route('qrcodes.show', $qrcode->id))
         ->setSize(8)
         ->setMargin(2)
         ->setOutfile($file)
         ->png();
+         $input['qrcode_path'] = $file; 
+    
+           //update database
+         $newQrcode =   QrcodeModel::where('id', $qrcode->id)
+                        ->update([
+                            'qrcode_path' => $input['qrcode_path']
+                        ]);
 
-        $input['qrcode_path'] = $file;
-
-        //update database
-        $newQrcode= QrcodeModel::where('id', $qrcode->id)->update(['qrcode_path' =>$input['qrcode_path']] );
-
+ 
 
         if($newQrcode){
 
             $getQrcode =  QrcodeModel::where('id', $qrcode->id)->first();
          //check if request expects json 
-        
+       
         if($request->expectsJson()){
             return response([
                 'data' => new QrcodeResource($getQrcode)
@@ -171,8 +172,6 @@ class QrcodeController extends AppBaseController
         
 
         return redirect(route('qrcodes.show', ['qrcode' => $qrcode]));
-        
-        
     }
 
     /**
@@ -295,6 +294,12 @@ class QrcodeController extends AppBaseController
         }
 
         $this->qrcodeRepository->delete($id);
+
+        if ($request->expectsJson()) {
+            return response([
+                'message' => 'Qrcode deleted successfully'
+            ], Response::HTTP_NOT_FOUND); 
+        }  
 
         Flash::success('Qrcode deleted successfully.');
 
